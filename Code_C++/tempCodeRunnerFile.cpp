@@ -1,5 +1,1 @@
-
-    while(t--) {
-        int n, k;
-        cin >> n >> k;
-        cout << C(n, k) << endl;
+cnt[sum % 3]++;
