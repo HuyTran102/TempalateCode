@@ -9,38 +9,35 @@ using namespace std;
 #define writeOut(fileName) freopen(fileName , "w", stdout)
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 
-const int LimN = 1e5 + 5;
+const int LimN = 1e6 + 5;
 const int LimM = 1e6 + 5;
 const int INF = 1e18;
 const int MOD = 1e9 + 7;
 
-int powerMod(int base, int exp, int mod) {
-    int result = 1;
-    while (exp > 0) {
-        if (exp % 2 == 1) {
-            result = (result * base) % mod;
-        }
-        base = (base * base) % mod;
-        exp /= 2;
-    }
-    return result;
-}
+int a[1005][1005], cnt[1005][1005];
+int h, w;
 
-int sumMod(int a, int n) {
-    if (a == 1) {
-        return n % MOD;
-    }
-    int numerator = (a * (powerMod(a, n, MOD) - 1 + MOD) % MOD) % MOD;
-    int denominator = powerMod(a - 1, MOD - 2, MOD); 
-    return (numerator * denominator) % MOD;
-}
-
-signed main() { 
+signed main() {
     fast_ios;
-    // readInp("test.txt"); 
-    // readInp("INPUT.INP");
-    int a, n;
-    cin >> a >> n;
-    cout << sumMod(a, n) << endl;
+    // freopen("test.txt", "r", stdin); 
+    cin >> h >> w;
+    for(int i = 1; i <= h; i++) {
+        for(int j = 1; j <= w; j++) {
+            cin >> a[i][j];
+        }
+    }
+
+    cnt[0][1] = 1;
+
+    for(int i = 1; i <= h; i++) {
+        for(int j = 1; j <= w; j++) {
+            if(a[i][j] == '#') {
+                cnt[i][j] = 0;
+            } else {
+                cnt[i][j] = (cnt[i - 1][j] + cnt[i][j - 1]) % MOD; 
+            }
+        }
+    }
+    cout << cnt[h][w] << endl;
     return 0;
 }
